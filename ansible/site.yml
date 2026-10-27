@@ -1,0 +1,23 @@
+# Configura o lab depois que o Packer gera as imagens.
+# Os roles ainda serao escritos; a ordem abaixo e a ordem de montagem.
+
+- name: Controlador de dominio
+  hosts: dc01
+  roles:
+    - dc_promover        # cria a floresta besafe.local
+    - ad_estrutura       # OUs, grupos e usuarios de group_vars/all.yml
+    - ad_tiers           # OUs e GPOs por camada
+    - ad_laps            # Windows LAPS
+
+- name: Estacao de trabalho
+  hosts: ws01
+  roles:
+    - ingressar_dominio
+
+- name: Maquina do treinamento
+  hosts: lab
+  roles:
+    - treinamento        # HTML offline servido em http://10.10.10.5
+    - console            # correcao automatica dos exercicios
+    - keycloak           # IAM federado ao AD
+    - guacamole          # bastion com gravacao de sessao (PAM)

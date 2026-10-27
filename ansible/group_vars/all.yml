@@ -1,0 +1,36 @@
+# Estrutura da Be Safe Corp criada no dominio.
+# Senhas NAO ficam aqui: o instalador gera senhas novas a cada montagem.
+
+dominio:
+  fqdn: besafe.local
+  netbios: BESAFE
+  nivel_funcional: Win2016   # necessario para JIT (associacao temporaria a grupo)
+
+rede:
+  sub_rede: 10.10.10.0/24
+  dc01: 10.10.10.10
+  ws01: 10.10.10.20
+  lab: 10.10.10.5
+
+# OUs raiz por camada (modelo de tiers do PAM)
+camadas:
+  - Tier 0
+  - Tier 1
+  - Tier 2
+
+departamentos:
+  - nome: RH
+    grupos: [GG-RH, GL-Pasta-RH-Leitura, GL-Pasta-RH-Escrita]
+  - nome: Financeiro
+    grupos: [GG-Financeiro, GL-Pasta-Financeiro-Leitura, GL-Pasta-Financeiro-Escrita]
+  - nome: TI
+    grupos: [GG-TI, GG-Helpdesk]
+  - nome: Comercial
+    grupos: [GG-Comercial]
+
+usuarios:
+  - { login: ana.souza,     nome: Ana Souza,     depto: RH,         cargo: Analista de RH }
+  - { login: bruno.lima,    nome: Bruno Lima,    depto: Financeiro, cargo: Contador }
+  - { login: carla.mendes,  nome: Carla Mendes,  depto: Financeiro, cargo: Gerente Financeira }
+  - { login: diego.rocha,   nome: Diego Rocha,   depto: TI,         cargo: Helpdesk }
+  - { login: elisa.prado,   nome: Elisa Prado,   depto: Comercial,  cargo: Vendedora }
